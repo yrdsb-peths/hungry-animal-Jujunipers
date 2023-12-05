@@ -15,6 +15,9 @@ public class Elephant extends Actor
     // Direction the elephant is facing
     String facing = "right";
     
+    // Create instance of imported timer
+    SimpleTimer animationTimer = new SimpleTimer();
+    
     /**
      * Constructor - The code that gets run one time when object is created
      */
@@ -34,6 +37,8 @@ public class Elephant extends Actor
             idleLeft[i].scale(100, 100);
         }
         
+        animationTimer.mark(); // resets timer to start at 0
+        
         // Initial elephant image
         setImage(idleRight[0]);
     }
@@ -45,6 +50,16 @@ public class Elephant extends Actor
     int imageIndex = 0;
     public void animateElephant()
     {
+        if(animationTimer.millisElapsed() < 100)
+        {
+            return; // not return anything and get out of the method
+            // What happens here is that we stay in this if statement for
+            // ~100 milliseconds before getting out of the if statement
+            // and moving on to next code (i observed this thru experimenting
+            // with Log.info)
+        }
+        animationTimer.mark();
+        
         if(facing.equals("right"))
         {
             setImage(idleRight[imageIndex]);
