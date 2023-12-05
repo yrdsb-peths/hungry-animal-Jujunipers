@@ -14,13 +14,13 @@ public class Elephant extends Actor
     /**
      * Constructor - The code that gets run one time when object is created
      */
-    
     public Elephant()
     {
         // Set each element in the idle[] array with an idle image, load the images
         for(int i = 0; i < idle.length; i++)
         {
             idle[i] = new GreenfootImage("images/elephant_idle/idle" + i + ".png");
+            idle[i].scale(100, 100);
         }
         
         setImage(idle[0]);
