@@ -10,6 +10,8 @@ public class Apple extends Actor
 {
     GreenfootImage apple = new GreenfootImage("images/apple1.png");
     int speed = 1;
+    GreenfootSound hpSound = new GreenfootSound("decrease.mp3");
+    
     
     public void act()
     {
@@ -20,7 +22,8 @@ public class Apple extends Actor
         MyWorld world = (MyWorld) getWorld(); // returns a copy of the world that the apple lives in
         if(getY() >= world.getHeight())
         {
-            world.gameOver();
+            world.hpDecrease();
+            hpSound.play();
             world.removeObject(this);
         }
     }
