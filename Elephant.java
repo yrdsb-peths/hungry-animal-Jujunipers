@@ -19,7 +19,10 @@ public class Elephant extends Actor
     SimpleTimer animationTimer = new SimpleTimer();
     
     // length and width values to set/change scale for the elephant
-    int size = 100;
+    // image ratio: width 49, height 43
+    int size = 530;
+    int size_x = size-451;
+    int size_y = size-457;
     
     // move speed of elephant
     int speed = 2;
@@ -33,14 +36,14 @@ public class Elephant extends Actor
         for(int i = 0; i < idleRight.length; i++)
         {
             idleRight[i] = new GreenfootImage("images/elephant_idle/idle" + i + ".png");
-            idleRight[i].scale(size, size);
+            idleRight[i].scale(size_x, size_y);
         }
         
         for(int i = 0; i < idleLeft.length; i++)
         {
             idleLeft[i] = new GreenfootImage("images/elephant_idle/idle" + i + ".png");
             idleLeft[i].mirrorHorizontally();
-            idleLeft[i].scale(size, size);
+            idleLeft[i].scale(size_x, size_y);
         }
         
         animationTimer.mark(); // resets timer to start at 0
@@ -115,18 +118,29 @@ public class Elephant extends Actor
             
             elephantSound.play();
             
-            // Increase elephant size
-            size += 6;
-            for(int i = 0; i < idleRight.length; i++)
+            // Increase elephant size for every 5 apples
+            if(world.score % 3 == 0)
             {
-                idleRight[i].scale(size, size);
+                size += 6;
+                size_x = size-451;
+                size_y = size-457;
+                for(int i = 0; i < idleRight.length; i++)
+                {
+                    idleRight[i].scale(size_x, size_y);
+                }
+                
+                for(int i = 0; i < idleRight.length; i++)
+                {
+                    idleLeft[i].scale(size_x, size_y);
+                }
+                setLocation(getX(), getY()-3); // move elephant up slightly to compensate for size increase
             }
             
-            for(int i = 0; i < idleRight.length; i++)
+            if(world.score % 6 == 0)
             {
-                idleLeft[i].scale(size, size);
+                speed += 1;
             }
-            setLocation(getX(), getY()-3); // move elephant up slightly to compensate for size increase
+            
             
         }
     }
