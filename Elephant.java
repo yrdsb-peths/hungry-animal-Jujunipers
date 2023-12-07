@@ -18,6 +18,12 @@ public class Elephant extends Actor
     // Create instance of imported timer
     SimpleTimer animationTimer = new SimpleTimer();
     
+    // length and width values to set/change scale for the elephant
+    int size = 100;
+    
+    // move speed of elephant
+    int speed = 2;
+    
     /**
      * Constructor - The code that gets run one time when object is created
      */
@@ -27,14 +33,14 @@ public class Elephant extends Actor
         for(int i = 0; i < idleRight.length; i++)
         {
             idleRight[i] = new GreenfootImage("images/elephant_idle/idle" + i + ".png");
-            idleRight[i].scale(100, 100);
+            idleRight[i].scale(size, size);
         }
         
         for(int i = 0; i < idleLeft.length; i++)
         {
             idleLeft[i] = new GreenfootImage("images/elephant_idle/idle" + i + ".png");
             idleLeft[i].mirrorHorizontally();
-            idleLeft[i].scale(100, 100);
+            idleLeft[i].scale(size, size);
         }
         
         animationTimer.mark(); // resets timer to start at 0
@@ -78,12 +84,12 @@ public class Elephant extends Actor
         // Move elephant with arrow keys
         if(Greenfoot.isKeyDown("left"))
         {
-            move(-2);
+            move(-speed);
             facing = "left";
         }
         else if(Greenfoot.isKeyDown("right"))
         {
-            move(2);
+            move(speed);
             facing = "right";
         }
         
@@ -102,10 +108,26 @@ public class Elephant extends Actor
         if(isTouching(Apple.class))
         {
             removeTouching(Apple.class);
-            MyWorld world = (MyWorld) getWorld();
-            world.createApple(); // access the createApple() method from MyWorld class
+            
+            MyWorld world = (MyWorld) getWorld(); // Create variable world, set to getWorld (which is the current world, type World, superclass of MyWorld), and cast to MyWorld type
+            world.createApple(); // access the createApple() method from MyWorld class using the world instance of MyWorld
             world.increaseScore();
+            
             elephantSound.play();
+            
+            // Increase elephant size
+            size += 6;
+            for(int i = 0; i < idleRight.length; i++)
+            {
+                idleRight[i].scale(size, size);
+            }
+            
+            for(int i = 0; i < idleRight.length; i++)
+            {
+                idleLeft[i].scale(size, size);
+            }
+            setLocation(getX(), getY()-3); // move elephant up slightly to compensate for size increase
+            
         }
     }
 }
