@@ -99,5 +99,26 @@ public class MyWorld extends World
     public void act()
     {
         checkTeleportElephant();
+        if(Greenfoot.isKeyDown("r"))
+        {
+            restart();
+        }
+    }
+    /**
+     * this restarts the game so it doesn't need to get reset to run
+     */
+    public void restart()
+    {
+        removeObjects(getObjects(null));
+        score = 0;
+        level = 1;
+        
+        Elephant ben = new Elephant();
+        addObject(ben, 300, 310);
+        
+        scoreLabel = new Label(0, 80);
+        addObject(scoreLabel, 50, 50);
+        
+        createApple();
     }
 }
