@@ -66,4 +66,38 @@ public class MyWorld extends World
         int y = 0;
         addObject(apple, x, y);
     }
+    
+    /**
+     * See if you like this pac man boundary system
+     */
+     public void checkTeleportElephant()
+    {
+        Elephant ella = (Elephant) getObjects(Elephant.class).get(0);
+
+        int worldWidth = getWidth();
+        int worldHeight = getHeight();
+
+        if (ella.getX() <= 0)
+        {
+            ella.setLocation(worldWidth - 1, ella.getY());
+        }
+        else if (ella.getX() >= worldWidth)
+        {
+            ella.setLocation(1, ella.getY());
+        }
+        
+        if (ella.getY() <= 0)
+        {
+            ella.setLocation(ella.getX(), worldHeight - 1);
+        }
+        else if (ella.getY() >= worldHeight)
+        {
+            ella.setLocation(ella.getX(), 1);
+        }
+    }
+    
+    public void act()
+    {
+        checkTeleportElephant();
+    }
 }
