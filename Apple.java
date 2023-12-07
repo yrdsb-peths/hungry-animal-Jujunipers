@@ -9,11 +9,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Apple extends Actor
 {
     GreenfootImage apple = new GreenfootImage("images/apple1.png");
+    int speed = 1;
     
     public void act()
     {
-        // Apple falls downwards
-        setLocation(getX(), getY() + 1);
+        // Apple falls downward, speed of y increases as level increases
+        setLocation(getX(), getY() + speed);
         
         // Remove apple and draw game over when apple gets to bottom
         MyWorld world = (MyWorld) getWorld(); // returns a copy of the world that the apple lives in
@@ -22,5 +23,10 @@ public class Apple extends Actor
             world.gameOver();
             world.removeObject(this);
         }
+    }
+    
+    public void setSpeed(int spd)
+    {
+        speed = spd;
     }
 }
