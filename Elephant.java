@@ -11,9 +11,14 @@ public class Elephant extends Actor
     GreenfootSound elephantSound = new GreenfootSound("elephantcub.mp3");
     GreenfootImage[] idleRight = new GreenfootImage[8];
     GreenfootImage[] idleLeft = new GreenfootImage[8];
+    GreenfootImage[] walkRight = new GreenfootImage[8];
+    GreenfootImage[] walkLeft = new GreenfootImage[8];
     
     // Direction the elephant is facing
     String facing = "right";
+    
+    // Walking or not
+    boolean walking = false;
     
     // Create instance of imported timer
     SimpleTimer animationTimer = new SimpleTimer();
@@ -21,8 +26,8 @@ public class Elephant extends Actor
     // length and width values to set/change scale for the elephant
     // image ratio: width 49, height 43
     int size = 530;
-    int size_x = size-451;
-    int size_y = size-457;
+    int size_xWalk = size-451;
+    int size_yWalk = size-457;
     
     // move speed of elephant
     int speed = 2;
@@ -36,14 +41,28 @@ public class Elephant extends Actor
         for(int i = 0; i < idleRight.length; i++)
         {
             idleRight[i] = new GreenfootImage("images/elephant_idle/idle" + i + ".png");
-            idleRight[i].scale(size_x, size_y);
+            idleRight[i].scale(size_xWalk, size_yWalk);
         }
         
         for(int i = 0; i < idleLeft.length; i++)
         {
             idleLeft[i] = new GreenfootImage("images/elephant_idle/idle" + i + ".png");
             idleLeft[i].mirrorHorizontally();
-            idleLeft[i].scale(size_x, size_y);
+            idleLeft[i].scale(size_xWalk, size_yWalk);
+        }
+        
+        // Set each element in the walk[] array with an idle image, load the images
+        for(int i = 0; i < walkRight.length; i++)
+        {
+            walkRight[i] = new GreenfootImage("images/elephant_walk/walk" + i + ".png");
+            walkRight[i].scale(size_xWalk, size_yWalk);
+        }
+        
+        for(int i = 0; i < walkLeft.length; i++)
+        {
+            walkLeft[i] = new GreenfootImage("images/elephant_walk/walk" + i + ".png");
+            walkLeft[i].mirrorHorizontally();
+            walkLeft[i].scale(size_xWalk, size_yWalk);
         }
         
         animationTimer.mark(); // resets timer to start at 0
@@ -69,15 +88,31 @@ public class Elephant extends Actor
         }
         animationTimer.mark();
         
-        if(facing.equals("right"))
+        if(walking == false) // idle animation
         {
-            setImage(idleRight[imageIndex]);
-            imageIndex = (imageIndex + 1) % idleRight.length;
+            if(facing.equals("right"))
+            {
+                setImage(idleRight[imageIndex]);
+                imageIndex = (imageIndex + 1) % idleRight.length;
+            }
+            else
+            {
+                setImage(idleLeft[imageIndex]);
+                imageIndex = (imageIndex + 1) % idleLeft.length;
+            }
         }
-        else
+        else // walking animation
         {
-            setImage(idleLeft[imageIndex]);
-            imageIndex = (imageIndex + 1) % idleLeft.length;
+            if(facing.equals("right"))
+            {
+                setImage(walkRight[imageIndex]);
+                imageIndex = (imageIndex + 1) % walkRight.length;
+            }
+            else
+            {
+                setImage(walkLeft[imageIndex]);
+                imageIndex = (imageIndex + 1) % walkLeft.length;
+            }
         }
         
     }
@@ -89,11 +124,17 @@ public class Elephant extends Actor
         {
             move(-speed);
             facing = "left";
+            walking = true;
         }
         else if(Greenfoot.isKeyDown("right"))
         {
             move(speed);
             facing = "right";
+            walking = true;
+        }
+        else // key is not down
+        {
+            walking = false;
         }
         
         // Remove apple if elephant eats it
@@ -122,16 +163,18 @@ public class Elephant extends Actor
             if(world.score % 3 == 0)
             {
                 size += 6;
-                size_x = size-451;
-                size_y = size-457;
+                size_xWalk = size-451;
+                size_yWalk = size-457;
                 for(int i = 0; i < idleRight.length; i++)
                 {
-                    idleRight[i].scale(size_x, size_y);
+                    idleRight[i].scale(size_xWalk, size_yWalk);
+                    idleLeft[i].scale(size_xWalk, size_yWalk);
                 }
                 
-                for(int i = 0; i < idleRight.length; i++)
+                for(int i = 0; i < walkRight.length; i++)
                 {
-                    idleLeft[i].scale(size_x, size_y);
+                    walkRight[i].scale(size_xWalk, size_yWalk);
+                    walkLeft[i].scale(size_xWalk, size_yWalk);
                 }
                 setLocation(getX(), getY()-3); // move elephant up slightly to compensate for size increase
             }
