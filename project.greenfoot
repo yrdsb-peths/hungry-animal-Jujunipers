@@ -2,6 +2,7 @@
 class.Apple.image=apple.png
 class.Elephant.image=elephant.png
 class.MyWorld.image=background1.png
+class.TitleSceen.image=background1.png
 dependency1.from=TitleSceen
 dependency1.to=Label
 dependency1.type=UsesDependency
