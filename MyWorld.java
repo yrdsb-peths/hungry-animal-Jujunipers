@@ -11,6 +11,9 @@ public class MyWorld extends World
     public int score;
     Label scoreLabel = new Label(0, 80);
     int level = 1;
+    int hp = 3;
+    Label hpLevel = new Label("Lives:" + hp, 50);
+    
     
     /**
      * Constructor for objects of class MyWorld.
@@ -28,6 +31,8 @@ public class MyWorld extends World
         // Create a label
         scoreLabel = new Label(0, 80);
         addObject(scoreLabel, 50, 50);
+        hpLevel = new Label("Lives:" + hp, 50);
+        addObject(hpLevel, 200, 50);
         
         createApple();
     }
@@ -120,5 +125,21 @@ public class MyWorld extends World
         addObject(scoreLabel, 50, 50);
         
         createApple();
+    }
+     * Decrease one life if apple his the ground, and play a game sound
+     */
+    public void hpDecrease()
+    {
+        hp--;
+        hpLevel.setValue("Lives: " + hp);
+        
+        if(hp == 0)
+        {
+            gameOver();
+        }
+        else
+        {
+            createApple();
+        }
     }
 }
