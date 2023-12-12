@@ -126,6 +126,7 @@ public class MyWorld extends World
         
         createApple();
     }
+     /*
      * Decrease one life if apple his the ground, and play a game sound
      */
     public void hpDecrease()
